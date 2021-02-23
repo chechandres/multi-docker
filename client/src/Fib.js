@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class Fib extends Component {
-  state = {
-    seenIndexes: [],
-    values: {},
-    index: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      seenIndexes: [],
+      values: {},
+      index: '',
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
   componentDidMount() {
     this.fetchValues();
@@ -25,7 +29,7 @@ class Fib extends Component {
     });
   }
 
-  handleSubmit = async (event) => {
+  async handleSubmit (event) {
     event.preventDefault();
 
     await axios.post('/api/values', {
@@ -33,6 +37,15 @@ class Fib extends Component {
     });
     this.setState({ index: '' });
   };
+
+  /*handleSubmit = async (event) => {
+    event.preventDefault();
+
+    await axios.post('/api/values', {
+      index: this.state.index,
+    });
+    this.setState({ index: '' });
+  };*/
 
   renderSeenIndexes() {
     return this.state.seenIndexes.map(({ number }) => number).join(', ');
